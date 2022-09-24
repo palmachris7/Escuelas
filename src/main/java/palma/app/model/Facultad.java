@@ -23,7 +23,7 @@ public class Facultad implements Serializable{
     private static final long serialVersionUID = -4435192139560346278L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idfacultad;
 
 	@Column(unique=true)

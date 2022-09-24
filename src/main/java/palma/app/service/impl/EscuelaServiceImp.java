@@ -31,7 +31,7 @@ public class EscuelaServiceImp implements IEscuelaService {
         try {
             List<Escuela> escuela = (List<Escuela>) escuelaDao.findAll();
             response.getEscuelaResponse().setEscuela(escuela);
-            response.setMetadata("Ok", "00", "Consulta Exitosa");
+            response.setMetadata("Ok", "200", "Consulta Exitosa");
         } catch (Exception e) {
             response.setMetadata("No ok", "-1", "Error al consultar las escuelas");
             log.error("Error al consultar escuelas: ", e.getMessage());
@@ -53,7 +53,7 @@ public class EscuelaServiceImp implements IEscuelaService {
                 escuelas.add(escuela.get());
                 response.getEscuelaResponse().setEscuela(escuelas);
             } else {
-                response.setMetadata("Respuesta failed", "-1", "Escuela no encontrada");
+                response.setMetadata("Respuesta failed", "404", "Escuela no encontrada");
                 return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
@@ -62,12 +62,14 @@ public class EscuelaServiceImp implements IEscuelaService {
             e.getStackTrace();
             return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.setMetadata("Ok", "00", "Consulta Exitosa");
+        response.setMetadata("Ok", "200", "Consulta Exitosa");
         return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.OK);
     }
 
     @Override
+    @Transactional
     public ResponseEntity<EscuelaResponseRest> crearEscuela(Escuela escuela) {
+        log.info("Inicio Metodo crearEscuela()");
         EscuelaResponseRest response = new EscuelaResponseRest();
 		List<Escuela> escuelas = new ArrayList<>();
 		
@@ -78,17 +80,82 @@ public class EscuelaServiceImp implements IEscuelaService {
 				escuelas.add(escuelaGuardada);
 				response.getEscuelaResponse().setEscuela(escuelas);
 			}else {
+                log.error("Error en guardar la escuela ");
 				response.setMetadata("Respuesta failed", "-1", "Escuela no guardada");
 				return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
+            log.error("Error en guardar la escuela",e.getMessage());
 			e.getStackTrace();
-			response.setMetadata("Respuesta failed", "-1", "No se pudo guardar la escuela");
+			response.setMetadata("Respuesta failed", "500", "No se pudo guardar la escuela");
 			return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
-		response.setMetadata("Respuesta ok", "1", "Escuela creada Correctamente");
+		response.setMetadata("Respuesta ok", "200", "Escuela creada Correctamente");
 		return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.OK);
       
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<EscuelaResponseRest> actualizarEscuela(Escuela escuela, Long id) {
+        log.info("Inicio Metodo actualizarEscuela()");
+        EscuelaResponseRest response = new EscuelaResponseRest();
+        List<Escuela> escuelas = new ArrayList<>();
+        try {
+            Optional<Escuela> escuelaBuscada = escuelaDao.findById(id);
+            if(escuelaBuscada.isPresent()) {
+				escuelaBuscada.get().setFacultad(escuela.getFacultad());
+				escuelaBuscada.get().setNombre(escuela.getNombre());
+                escuelaBuscada.get().setDescripcion(escuela.getDescripcion());
+				escuelaBuscada.get().setCantalumnos(escuela.getCantalumnos());
+				escuelaBuscada.get().setRecursofiscal(escuela.getRecursofiscal());
+				escuelaBuscada.get().setLicenciada(escuela.getLicenciada());
+				escuelaBuscada.get().setCalificacion(escuela.getCalificacion());
+				
+				Escuela escuelaActualizar = escuelaDao.save(escuelaBuscada.get());
+				
+				if(escuelaActualizar != null) {
+					response.setMetadata("Respuesta ok", "200", "Escuela Actualizada");
+					escuelas.add(escuelaActualizar);
+					response.getEscuelaResponse().setEscuela(escuelas);
+				} else {
+                    log.error("Error en actualizar la escuela");
+					response.setMetadata("Respuesta failed", "-1", "Escuela no Actualizada");
+					return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.BAD_REQUEST);
+				}
+				
+			}else {
+                log.error("Error en actualizar la escuela");
+				response.setMetadata("Respuesta nok", "-1", "No existe la escuela a actualizar");
+				return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.NOT_FOUND);
+			}
+        } catch (Exception e) {
+            log.error("Error en actualizar la escuela",e.getMessage());
+            e.getStackTrace();
+			response.setMetadata("Respuesta failed", "-1", "No se pudo actualizar la escuela");
+			return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
+        }
+        return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.OK);
+    }
+
+
+    @Override
+    @Transactional
+    public ResponseEntity<EscuelaResponseRest> eliminarEscuela(Long id) {
+        log.info("Inicio Metodo eliminarEscuela()");
+        EscuelaResponseRest response = new EscuelaResponseRest();
+		
+		try {
+			escuelaDao.deleteById(id);
+			response.setMetadata("Respuesta ok", "200", "Escuela ELiminada");
+			
+		} catch (Exception e) {
+			e.getStackTrace();
+			response.setMetadata("Respuesta failed", "-1", "No se pudo eliminar la escuela");
+			return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
+		}
+		
+		return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.OK);
     }
 
     

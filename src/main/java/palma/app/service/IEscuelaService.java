@@ -11,4 +11,8 @@ public interface IEscuelaService {
     public ResponseEntity<EscuelaResponseRest> buscarEscuelaPorId(Long id);
 
     public ResponseEntity<EscuelaResponseRest> crearEscuela(Escuela escuela);
+
+    public ResponseEntity<EscuelaResponseRest> actualizarEscuela(Escuela escuela, Long id);
+
+    public ResponseEntity<EscuelaResponseRest> eliminarEscuela(Long id);
 }

@@ -28,7 +28,7 @@ public class Escuela implements Serializable {
     private static final long serialVersionUID = -7703691020344717540L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idescuela;
 
     @ManyToOne(fetch = FetchType.LAZY)
