@@ -104,8 +104,8 @@ public class FacultadServiceImp implements IFacultadService {
         try {
             Optional<Facultad> facultadBuscada = facultadDao.findById(id);
             if(facultadBuscada.isPresent()) {
-				facultadBuscada.get().setDescfacultad(facultad.getDescfacultad());
-				facultadBuscada.get().setFecharegistro(facultad.getFecharegistro());
+				facultadBuscada.get().setDescFacultad(facultad.getDescFacultad());
+				facultadBuscada.get().setFechaRegistro(facultad.getFechaRegistro());
 				
 				Facultad escuelaActualizar = facultadDao.save(facultadBuscada.get());
 				

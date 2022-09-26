@@ -1,8 +1,16 @@
 package palma.app.service.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import net.sf.jasperreports.engine.JRException;
+import palma.app.jasper.JasperReportManager;
 import palma.app.model.Escuela;
+import palma.app.model.Facultad;
+import palma.app.model.Reporte;
 import palma.app.model.dao.IEscuelaDao;
+import palma.app.model.dao.IFacultadDao;
 import palma.app.response.EscuelaResponseRest;
 import palma.app.service.IEscuelaService;
 
@@ -22,6 +34,15 @@ public class EscuelaServiceImp implements IEscuelaService {
 
     @Autowired
     private IEscuelaDao escuelaDao;
+    
+    @Autowired
+    private IFacultadDao facultadDao;
+
+    @Autowired
+	private JasperReportManager reportManager;
+
+    @Autowired
+	private DataSource dataSource;
 
     @Override
     @Transactional(readOnly = true)
@@ -107,8 +128,8 @@ public class EscuelaServiceImp implements IEscuelaService {
 				escuelaBuscada.get().setFacultad(escuela.getFacultad());
 				escuelaBuscada.get().setNombre(escuela.getNombre());
                 escuelaBuscada.get().setDescripcion(escuela.getDescripcion());
-				escuelaBuscada.get().setCantalumnos(escuela.getCantalumnos());
-				escuelaBuscada.get().setRecursofiscal(escuela.getRecursofiscal());
+				escuelaBuscada.get().setCantAlumnos(escuela.getCantAlumnos());
+				escuelaBuscada.get().setRecursoFiscal(escuela.getRecursoFiscal());
 				escuelaBuscada.get().setLicenciada(escuela.getLicenciada());
 				escuelaBuscada.get().setCalificacion(escuela.getCalificacion());
 				
@@ -156,6 +177,28 @@ public class EscuelaServiceImp implements IEscuelaService {
 		}
 		
 		return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.OK);
+    }
+
+   
+    @Override
+    public List<Facultad> listarFacultad() {
+        return (List<Facultad>) facultadDao.findAll();
+    }
+
+    @Override
+    public Reporte obtenerReporteEscuela(Map<String, Object> params) throws JRException, IOException, SQLException {
+        String filename= "reporte_escuelas";
+		Reporte report = new Reporte();
+		report.setFileName(filename + ".pdf");
+		
+		ByteArrayOutputStream stream = reportManager.export(filename, params, dataSource.getConnection());
+		
+		byte[] bs = stream.toByteArray();		
+		report.setStream(new ByteArrayInputStream(bs));
+		report.setLength(bs.length);
+		
+		return report;
+        
     }
 
     

@@ -24,13 +24,13 @@ public class Facultad implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idfacultad;
+	private Long idFacultad;
 
 	@Column(unique=true)
-	private String descfacultad;
+	private String descFacultad;
 	
     @DateTimeFormat(pattern = "yyyy-MM-dd")				
 	@Temporal(TemporalType.DATE)
-	private Date fecharegistro;
+	private Date fechaRegistro;
 
 }

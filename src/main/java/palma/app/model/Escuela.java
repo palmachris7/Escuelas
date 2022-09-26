@@ -29,7 +29,7 @@ public class Escuela implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idescuela;
+    private Long idEscuela;
 
     @ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties( {"hibernateLazyInitializer", "handler"})
@@ -38,11 +38,11 @@ public class Escuela implements Serializable {
     @Column(unique=true)
     private String nombre;
 
-    private Integer cantalumnos;
+    private Integer cantAlumnos;
 
     private String descripcion;
 
-    private Double recursofiscal;
+    private Double recursoFiscal;
 
     private Boolean licenciada;
 
@@ -50,6 +50,6 @@ public class Escuela implements Serializable {
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-    private Date fecharegistro;
+    private Date fechaRegistro;
 
 }
