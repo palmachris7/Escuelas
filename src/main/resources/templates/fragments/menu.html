@@ -25,7 +25,7 @@
 	 <!-- Modal salir -->
 	 <div class="card fixed-top"> 
 	<div class="navbar navbar-expand-md navbar-white" style="background-color: #e3f2fd;">
-		<a class="navbar-brand" th:href="@{/}">Hospitales App</a>
+		<a class="navbar-brand" th:href="@{/}">Escuelas App</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
 			aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -35,34 +35,18 @@
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
-					<a class="nav-link" th:href="@{/hospitales/indexPaginate}"><i class="fa-regular fa-hospital"></i>
-						Hospitales</a>
+					<a class="nav-link" th:href="@{/escuelas}"><i class="fa-solid fa-school"></i>
+						Escuelas</a>
 				</li>
 				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
-					<a class="nav-link" th:href="@{/citas/indexPaginate}"><i class="fa-solid fa-calendar-check"></i>
-						Solicitudes</a>
-				</li>
-				<li class="nav-item" sec:authorize="hasAnyAuthority('USUARIO')">
-					<a class="nav-link" th:href="@{/citas/indexPaginate}"><i class="fa-solid fa-calendar-check"></i>
-						Citas</a>
-				</li>
-				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
-					<a class="nav-link" th:href="@{/usuarios/index}"><i class="fa-solid fa-users"></i> Usuarios</a>
+					<a class="nav-link" th:href="@{/citas/indexPaginate}"><i class="fa-solid fa-graduation-cap"></i>
+						Facultades</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" th:href="@{/about}"><i class="fa-solid fa-circle-info"></i> Acerca</a>
 				</li>
 			</ul>
-			<div sec:authorize="isAnonymous()">
-				<a class="btn btn-primary" th:href="@{/index}"><i class="fa-solid fa-key"></i> Ingresar </a>&nbsp;
-				<a class="btn btn-primary" th:href="@{/signup}"><i class="fa-solid fa-user-plus"></i> Registrarse </a>
-			</div>
-			<div sec:authorize="isAuthenticated()">
-				<span class="text-primary">Bienvenido:</span>&nbsp;<span class="text-primary"
-					sec:authentication="name"></span>&nbsp;
-				<a class="btn btn-primary" id="navbar_salir" href=""data-toggle="modal" data-target="#modalSalir"><i
-						class="fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
-			</div>
+			
 		</div>
 	 
 	</div>

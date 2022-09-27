@@ -8,14 +8,13 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>HospitalApp | Listado de Ofertas de Trabajo</title>
+  <title>EscuelaApp</title>
   <!-- Bootstrap core CSS -->
   <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
   <link th:href="@{/bootstrap/css/home.css}" rel="stylesheet">
   <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 
@@ -29,10 +28,11 @@
       <div class="card">
         <h4 class="card-header form-inline"><strong>Listado de Escuelas</strong></h4>
         <div class="card-body">
-          <a class="btn btn-primary btn-block" th:href="@{/escuelas/crear}"
-            title="Crear escuela" role="button"><i class="fas fa-plus" aria-hidden="true"></i> Nueva escuela</a>
-          <hr>
-          <!-- <small th:text="${cantidad}" class="text-primary"></small><small class="text-primary"> escuelas en Total</small> -->
+          <a class="btn btn-success btn-block" data-target="#modalPdf" data-toggle="modal" href=""
+            title="Generar Reporte" role="button"><i class="fa-solid fa-file-contract"></i> Generar Reporte</a>
+
+          <a class="btn btn-primary btn-block" th:href="@{/escuelas/crear}" title="Crear escuela" role="button"><i
+              class="fas fa-plus" aria-hidden="true"></i> Nueva escuela</a>
           <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
 
           <table class="table table-hover">
@@ -56,19 +56,20 @@
                 <td th:text="${escuela.cantAlumnos}"></td>
                 <td th:text="${escuela.recursoFiscal}"></td>
                 <td th:switch="${escuela.licenciada}">
-                    <span th:case=true class="badge badge-success">SI</span>
-                    <span th:case=false class="badge badge-danger">NO</span>
+                  <span th:case=true class="badge badge-success">SI</span>
+                  <span th:case=false class="badge badge-danger">NO</span>
                 </td>
                 <td th:text="${escuela.calificacion}"></td>
                 <td th:text=${escuela.facultad.descFacultad}></td>
                 <td th:text="${#dates.format(escuela.fechaRegistro, 'yyy-MM-dd')}"></td>
 
                 <td sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
-                  <a th:href="@{/escuelas/editar/{id} (id=${escuela.idEscuela}) }" class="btn btn-success btn-sm" role="button"
-                    title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                  <a th:href="@{/escuelas/editar/{id} (id=${escuela.idEscuela}) }" class="btn btn-warning btn-sm"
+                    role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
 
-                  <a th:href="@{/escuelas/eliminar/{id} (id=${escuela.idEscuela}) }" id="deletec" class="btn btn-danger btn-sm"
-                    role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                  <a th:href="@{/escuelas/eliminar/{id} (id=${escuela.idEscuela}) }" id="deletec"
+                    class="btn btn-danger btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash"
+                      aria-hidden="true"></i></a>
                 </td>
               </tr>
             </tbody>
@@ -102,6 +103,44 @@
       </div>
     </div>
     <!-- Modal eliminar -->
+
+    <!-- Modal PDF -->
+    <div class="modal fade bd-example-modal" id="modalPdf" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Generar Reporte</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="http://localhost:8080/api/reporte" method="GET" target="_blank" class="needs-validation"
+              novalidate>
+              <div class="d-flex justify-content-around align-items-center needs-validation" novalidate>
+                <div>
+                  <label for="">Fecha Inicio</label>
+                  <input type="date" class="form-control" name="fechaInicio" id="fechaInicio" required />
+                </div>
+                <div>
+                  <label for="">Fecha Fin</label>
+                  <input type="date" class="form-control" name="fechaFin" id="fechaFin" required />
+                </div>
+                <div>
+                </div>
+              </div>
+              <br>
+              <button type="submit" id="pdf" class="btn btn-success btn-block"><i class="fa-solid fa-file-contract"></i>
+                Generar Reporte</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Modal PDF -->
+
 
 
 

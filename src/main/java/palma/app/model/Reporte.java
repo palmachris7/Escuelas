@@ -12,7 +12,4 @@ public class Reporte {
 	private ByteArrayInputStream stream;
 	
 	private Integer length;
-
-	
-	
 }

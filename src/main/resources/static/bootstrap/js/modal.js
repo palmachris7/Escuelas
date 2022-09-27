@@ -5,13 +5,6 @@ $('document').ready(function(){
         $('#modalEliminar #delref').attr('href',href);
         $('#modalEliminar').modal();
     });
-
-    $('.table #deleteh').on('click',function(event){
-        event.preventDefault();
-        var href =$(this).attr('href');
-        $('#modalEliminarH #delref').attr('href',href);
-        $('#modalEliminarH').modal();
-    });
     $('.table #deletec').on('click',function(event){
         event.preventDefault();
         var href =$(this).attr('href');
