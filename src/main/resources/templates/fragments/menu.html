@@ -34,17 +34,17 @@
 
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+				<li class="nav-item">
 					<a class="nav-link" th:href="@{/escuelas}"><i class="fa-solid fa-school"></i>
 						Escuelas</a>
 				</li>
-				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
-					<a class="nav-link" th:href="@{/citas/indexPaginate}"><i class="fa-solid fa-graduation-cap"></i>
-						Facultades</a>
+			 <li class="nav-item">
+					<a class="nav-link" th:href="@{/escuelas/crear}"><i class="fa-solid fa-graduation-cap"></i>
+						Nueva Escuela</a>
 				</li>
-				<li class="nav-item">
+				<!-- <li class="nav-item">
 					<a class="nav-link" th:href="@{/about}"><i class="fa-solid fa-circle-info"></i> Acerca</a>
-				</li>
+				</li> -->
 			</ul>
 			
 		</div>
