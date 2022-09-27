@@ -1,92 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-	<meta charset="ISO-8859-1">
-	<title>Reto 2 - BootCamp</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="favicon.ico">
+
+  <title>HospitalApp | Listado de Ofertas de Trabajo</title>
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+  <link th:href="@{/bootstrap/css/home.css}" rel="stylesheet">
+  <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
+
 <body>
-	<header th:insert="fragments/header :: menu-principal"> </header>
-	<br>
-	<br>
-	<div class="container">
-		<a th:href="@{/escuelas/crear}" class="btn btn-primary">Crea nueva Escuela</a>
-		<br />
-		<br />
-		<div class="card">
-			<div class="card-header">
-				<h3>Listado de Escuelas</h3>
-			</div>
-			<div class="card-body">
-<!-- 			<h4>Listado de Escuelas</h4> -->
-				<div class="form-group">
-					<h6>Generar reporte:</h6><br/>
-					<form action="http://localhost:8080/api/reporte" method="GET" target="_blank">
-						<div class="d-flex justify-content-around align-items-center">
-							<div>
-								<label for="">Fecha Inicio</label>
-								<input type="date" class="form-control" name="fechaInicio" id="fechaInicio"/>
-							</div>
-							<div>
-								<label for="">Fecha Fin</label>
-								<input type="date" class="form-control" name="fechaFin" id="fechaFin"/>
-							</div>
-							<div>
-								<input type="submit" class="btn btn-success" value="Generar Reporte"/>
-							</div>						
-						</div>
-					</form>		
-				</div><br>
-				<div style="overflow-x: auto;">
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Nombre</th>
-								<th scope="col">Cantidad</th>
-								<th scope="col">Recurso fiscal</th>
-								<th scope="col">Licencia</th>
-								<th scope="col">Clasificacion</th>
-								<th scope="col">Facultad</th>
-								<th scope="col">Fecha Registro</th>
-								<th scope="col" colspan="2">Acciones</th>				
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:if="${escuelas.size() == 0}">
-								<td colspan="8" style="text-align: center;">
-									<strong>No hay Datos disponibles</strong>
-								</td>
-							</tr>
-							<tr th:unless="${escuelas.size() == 0}" th:each="escuela : ${escuelas}">
-								<th scope="row" th:text=${escuela.idescuela}>1</th>
-								<td th:text=${escuela.nombre}>Mark</td>
-								<td th:text=${escuela.cantalumnos}>Otto</td>
-								<td th:text=${escuela.recursofiscal}>Otto</td>
-								
-								<td>
-									<span th:if="${(escuela.licenciada == true) or (escuela.licenciada == 1)}" class="badge badge-success">SI</span>
-									<span th:unless="${(escuela.licenciada == true) or (escuela.licenciada == 1)}" class="badge badge-danger">NO</span>
-								</td>
-								
-								<td th:text=${escuela.calificacion}>Otto</td>
-								<td th:text=${escuela.facultad.descfacultad}>Otto</td>
-								
-								<td th:text="${#dates.format(escuela.fecharegistro, 'dd-MM-yyyy')}">Otto</td>
-								<td>
-									<a th:href="@{/escuelas/editar/{id} (id=${escuela.idescuela}) }">Editar</a>
-								</td>
-								<td>
-									<a th:href="@{/escuelas/eliminar/{id} (id=${escuela.idescuela}) }" onclick="return confirm('Estas seguro?')">Eliminar</a>
-								</td>
-							</tr>
-							
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="card-footer"></div>
-		</div>
-	</div>
+
+  <header th:insert="fragments/menu :: menu-principal"></header>
+
+  <main role="main">
+    <hr>
+    <div class="container">
+      <div class="card">
+        <h4 class="card-header form-inline"><strong>Listado de Escuelas</strong></h4>
+        <div class="card-body">
+          <a class="btn btn-primary btn-block" th:href="@{/escuelas/crear}"
+            title="Crear escuela" role="button"><i class="fas fa-plus" aria-hidden="true"></i> Nueva escuela</a>
+          <hr>
+          <!-- <small th:text="${cantidad}" class="text-primary"></small><small class="text-primary"> escuelas en Total</small> -->
+          <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Recurso fiscal</th>
+                <th scope="col">Licencia</th>
+                <th scope="col">Calificacion</th>
+                <th scope="col">Facultad</th>
+                <th scope="col">Fecha Registro</th>
+                <th sec:authorize="hasAnyAuthority('ADMINISTRADOR')" scope="col">Operaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="escuela : ${escuelas}">
+                <td th:text="${escuela.idEscuela}"></td>
+                <td th:text="${escuela.nombre}"></td>
+                <td th:text="${escuela.cantAlumnos}"></td>
+                <td th:text="${escuela.recursoFiscal}"></td>
+                <td th:switch="${escuela.licenciada}">
+                    <span th:case=true class="badge badge-success">SI</span>
+                    <span th:case=false class="badge badge-danger">NO</span>
+                </td>
+                <td th:text="${escuela.calificacion}"></td>
+                <td th:text=${escuela.facultad.descFacultad}></td>
+                <td th:text="${#dates.format(escuela.fechaRegistro, 'yyy-MM-dd')}"></td>
+
+                <td sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+                  <a th:href="@{/escuelas/editar/{id} (id=${escuela.idEscuela}) }" class="btn btn-success btn-sm" role="button"
+                    title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+
+                  <a th:href="@{/escuelas/eliminar/{id} (id=${escuela.idEscuela}) }" id="deletec" class="btn btn-danger btn-sm"
+                    role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal eliminar -->
+    <div class="modal fade bd-example-modal-sm" id="modalEliminarC" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Eliminar</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Estas seguro de eliminar la escuela?
+          </div>
+          <div class="modal-footer">
+            <a type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancelar</a>
+            <a href="" id="delref" class="btn btn-danger btn-sm" role="button" title="Eliminar">Eliminar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal eliminar -->
+
+
+
+  </main>
+
+  <footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{/bootstrap/js/validaciones.js}"></script>
+  <script th:src="@{/bootstrap/js/modal.js}"></script>
 </body>
+
 </html>

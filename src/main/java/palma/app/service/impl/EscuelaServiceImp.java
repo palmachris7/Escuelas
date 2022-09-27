@@ -51,7 +51,7 @@ public class EscuelaServiceImp implements IEscuelaService {
         EscuelaResponseRest response = new EscuelaResponseRest();
         try {
             List<Escuela> escuela = (List<Escuela>) escuelaDao.findAll();
-            response.getEscuelaResponse().setEscuela(escuela);
+            response.getEscuelaResponse().setEscuelas(escuela);
             response.setMetadata("Ok", "200", "Consulta Exitosa");
         } catch (Exception e) {
             response.setMetadata("No ok", "-1", "Error al consultar las escuelas");
@@ -72,7 +72,7 @@ public class EscuelaServiceImp implements IEscuelaService {
             Optional<Escuela> escuela = escuelaDao.findById(id);
             if (escuela.isPresent()) {
                 escuelas.add(escuela.get());
-                response.getEscuelaResponse().setEscuela(escuelas);
+                response.getEscuelaResponse().setEscuelas(escuelas);
             } else {
                 response.setMetadata("Respuesta failed", "404", "Escuela no encontrada");
                 return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.NOT_FOUND);
@@ -99,7 +99,7 @@ public class EscuelaServiceImp implements IEscuelaService {
 			
 			if(escuelaGuardada != null) {
 				escuelas.add(escuelaGuardada);
-				response.getEscuelaResponse().setEscuela(escuelas);
+				response.getEscuelaResponse().setEscuelas(escuelas);
 			}else {
                 log.error("Error en guardar la escuela ");
 				response.setMetadata("Respuesta failed", "-1", "Escuela no guardada");
@@ -132,14 +132,14 @@ public class EscuelaServiceImp implements IEscuelaService {
 				escuelaBuscada.get().setRecursoFiscal(escuela.getRecursoFiscal());
 				escuelaBuscada.get().setLicenciada(escuela.getLicenciada());
 				escuelaBuscada.get().setCalificacion(escuela.getCalificacion());
-				
+				escuelaBuscada.get().setFechaRegistro(escuela.getFechaRegistro());
 				Escuela escuelaActualizar = escuelaDao.save(escuelaBuscada.get());
 				
 				if(escuelaActualizar != null) {
 					response.setMetadata("Respuesta ok", "200", "Escuela Actualizada");
 					escuelas.add(escuelaActualizar);
-					response.getEscuelaResponse().setEscuela(escuelas);
-				} else {
+					response.getEscuelaResponse().setEscuelas(escuelas);
+				} else { 
                     log.error("Error en actualizar la escuela");
 					response.setMetadata("Respuesta failed", "-1", "Escuela no Actualizada");
 					return new ResponseEntity<EscuelaResponseRest>(response, HttpStatus.BAD_REQUEST);

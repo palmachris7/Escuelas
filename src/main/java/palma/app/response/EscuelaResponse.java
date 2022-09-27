@@ -4,15 +4,17 @@ import palma.app.model.Escuela;
 
 public class EscuelaResponse {
 
-    private List<Escuela> escuela;
+    private List<Escuela> escuelas;
 
-    public List<Escuela> getEscuela() {
-        return escuela;
+    public List<Escuela> getEscuelas() {
+        return escuelas;
     }
 
-    public void setEscuela(List<Escuela> escuela) {
-        this.escuela = escuela;
+    public void setEscuelas(List<Escuela> escuelas) {
+        this.escuelas = escuelas;
     }
+
+   
 
     
 }

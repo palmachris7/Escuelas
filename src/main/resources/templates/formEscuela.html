@@ -1,0 +1,183 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>EscuelaApp | Ingresar datos de Escuelas</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/home.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header th:insert="fragments/menu :: menu-principal"></header>
+
+    <main role="main">
+        <hr>
+        <div class="container">
+
+            <div class="card">
+                <h4 class="card-header" th:if="${titulo != null}" th:text="${titulo}">Escuela</h4>
+				<h4 class="card-header" th:unless="${titulo != null}" >Crear Escuela</h4>
+                <!-- <h4 class="card-header"><strong>Datos de la Escuela</strong></h4> -->
+                <div class="card-body">
+                    <a class="btn btn-warning" th:href="@{/escuelas}" title="Regresar" role="button"><i
+                            class="fa-solid fa-arrow-left"></i> Regresar</a>
+                    <hr>
+                    <form th:action="${action} == 'editar' ? @{/escuelas/actualizar} : @{/escuelas/guardar}" th:object="${escuela}" method="post"
+                        enctype="multipart/form-data" class="needs-validation" novalidate>
+
+                        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role='alert'>
+                            Por favor corrija los siguiente errores:
+                            <ul>
+                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="hidden" th:field="*{idEscuela}">
+                                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre"
+                                        name="nombre" placeholder="Nombre de la Escuela" required="required">
+                                    <div class="valid-feedback">
+                                        ¡Se ve bien!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese el nombre de la escuela
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="detalles">Cantidad de Alumnos</label>
+                                    <input type="text" th:field="*{cantAlumnos}" class="form-control" id="cantAlumnos"
+                                        name="cantAlumnos" placeholder="Cantidad de Alumnos" required="required">
+                                    <div class="valid-feedback">
+                                        ¡Se ve bien!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese los detalles
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="detalles">Calificacion</label>
+                                    <input type="number" th:field="*{calificacion}" class="form-control" id="calificacion"
+                                        name="calificacion" placeholder="Calificacion" required="required">
+                                    <div class="valid-feedback">
+                                        ¡Se ve bien!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese los datos
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="facultad">Facultad</label>
+                                    <select class="form-control" name="facultad" th:field="*{facultad.idFacultad}"
+                                        id="facultad">
+                                        <option th:each="facultad : ${facultades}" th:value="${facultad.idFacultad}"
+                                            th:text="${facultad.descFacultad}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="detalles">Recurso Fiscal</label>
+                                    <input type="number" th:field="*{recursoFiscal}" class="form-control"
+                                        id="recursoFiscal" name="recursoFiscal" placeholder="Recurso Fiscal"
+                                        required="required">
+                                    <div class="valid-feedback">
+                                        ¡Se ve bien!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese los detalles
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="distrito">Licencia</label>
+                                    <select th:field="*{licenciada}" class="form-control" name="licenciada"
+                                        id="licenciada">
+                                        <option value="true">Si</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="fecha">Fecha de Publicación</label>
+                                    <input type="date" class="form-control" name="fecha" th:field="*{fechaRegistro}"
+                                        id="fecha" placeholder="Fecha de Publicación" required="required">
+                                    <div class="valid-feedback">
+                                        ¡Se ve bien!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese la fecha
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="descripcion">Detalles</label>
+                                    <input type="text" th:field="*{descripcion}" class="form-control" id="descripcion"
+                                        name="cantAlumnos" placeholder="descripcion de la Escuela" required="required">
+                                    <div class="valid-feedback">
+                                        ¡Se ve bien!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese los detalles
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                     
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-floppy-disk"></i>
+                    Guardar</button>
+                </form>
+            </div>
+        </div>
+        </div> <!-- /container -->
+
+    </main>
+
+    <footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script th:src="@{/tinymce/tinymce.min.js}"></script>
+    <script th:src="@{/bootstrap/js/validaciones.js}"></script>
+   
+</body>
+
+</html>

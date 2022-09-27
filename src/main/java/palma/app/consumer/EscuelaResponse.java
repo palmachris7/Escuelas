@@ -9,9 +9,12 @@ import palma.app.model.Escuela;
 public class EscuelaResponse {
 	private List<Escuela> escuelas;
 
+	
 	public List<Escuela> getEscuelas() {
 		return escuelas;
 	}
+
+
 
 	public void setEscuelas(List<Escuela> escuelas) {
 		this.escuelas = escuelas;
@@ -21,6 +24,8 @@ public class EscuelaResponse {
 	public String toString() {
 		return "EscuelaResponse [escuelas=" + escuelas + "]";
 	}
+
+	
 	
 	
 }
