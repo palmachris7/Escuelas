@@ -31,7 +31,6 @@
 			<span class="navbar-toggler-icon"></span>
 
 		</button>
-
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
@@ -41,12 +40,20 @@
 			 <li class="nav-item">
 					<a class="nav-link" th:href="@{/escuelas/crear}"><i class="fa-solid fa-graduation-cap"></i>
 						Nueva Escuela</a>
-				</li>
-				<!-- <li class="nav-item">
-					<a class="nav-link" th:href="@{/about}"><i class="fa-solid fa-circle-info"></i> Acerca</a>
-				</li> -->
 			</ul>
-			
+
+			<div sec:authorize="isAnonymous()">
+				<a class="btn btn-primary" th:href="@{/index}"><i class="fa-solid fa-key"></i> Ingresar
+				</a>&nbsp;
+				<a class="btn btn-primary" th:href="@{/signup}"><i class="fa-solid fa-user-plus"></i>
+					Registrarse </a>
+			</div>
+			<div sec:authorize="isAuthenticated()">
+				<span class="text-primary">Bienvenido:</span>&nbsp;<span class="text-primary"
+					sec:authentication="name"></span>&nbsp;
+				<a class="btn btn-primary" id="navbar_salir" href="" data-toggle="modal"
+					data-target="#modalSalir"><i class="fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
+			</div>
 		</div>
 	 
 	</div>
