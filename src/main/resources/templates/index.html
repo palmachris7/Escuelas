@@ -28,10 +28,10 @@
       <div class="card">
         <h4 class="card-header form-inline"><strong>Listado de Escuelas</strong></h4>
         <div class="card-body">
-          <a class="btn btn-success btn-block" data-target="#modalPdf" data-toggle="modal" href=""
+          <a sec:authorize="hasAnyAuthority('ADMINISTRADOR')" class="btn btn-success btn-block" data-target="#modalPdf" data-toggle="modal" href=""
             title="Generar Reporte" role="button"><i class="fa-solid fa-file-contract"></i> Generar Reporte</a>
 
-          <a class="btn btn-primary btn-block" th:href="@{/escuelas/crear}" title="Crear escuela" role="button"><i
+          <a sec:authorize="hasAnyAuthority('ADMINISTRADOR')" class="btn btn-primary btn-block" th:href="@{/escuelas/crear}" title="Crear escuela" role="button"><i
               class="fas fa-plus" aria-hidden="true"></i> Nueva escuela</a>
           <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
 
