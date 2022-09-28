@@ -22,7 +22,7 @@ Aplicacion CRUD de Escuelas y generación de reporte con. JasperReports
 ![](src/main/resources/screnshots/genereraReporte.png)
 
 >Reporte:
-![](Escuelas/src/main/resources/screnshots/reportes.png)
+![](src/main/resources/screnshots/reportes.png)
 
 
 [Base de datos](./src/main/resources/db.sql)
