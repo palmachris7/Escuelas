@@ -1,7 +1,7 @@
 # Escuelas App
 Aplicacion CRUD de Escuelas y generación de reporte con. JasperReports
 
-###Vistas:
+### Vistas:
 
 >Login:
 ![](src/main/resources/screnshots/login.png)
