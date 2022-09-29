@@ -1,1 +1,55 @@
-<p>body works!</p>
+
+<div class="container" style="margin-top:100px; margin-bottom: 10px;">
+  <div class="card">
+    <h4 class="card-header form-inline"><strong>Listado de Escuelas</strong></h4>
+    <div class="card-body">
+      <a class="btn btn-success col-12" href="" title="Generar Reporte"
+        role="button"><i class="fa-solid fa-file-contract"></i> Generar Reporte</a>
+        <br>
+      <a class="btn btn-primary col-12" style="margin-top:10px; margin-bottom: 10px;" title="Crear escuela" role="button"><i class="fas fa-plus"
+          aria-hidden="true"></i> Nueva escuela</a>
+
+
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Recurso fiscal</th>
+            <th scope="col">Licencia</th>
+            <th scope="col">Calificacion</th>
+            <th scope="col">Facultad</th>
+            <th scope="col">Fecha Registro</th>
+            <th scope="col">Operaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of arrEscuela">
+            <td>{{item.idEscuela}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.cantAlumnos}}</td>
+            <td>{{item.recursoFiscal}}</td>
+            <td [ngSwitch]="item.licenciada">
+              <h6 *ngSwitchCase="true"><span class="badge bg-success">SI</span></h6>
+              <h6 *ngSwitchCase="false"><span class="badge bg-danger">NO</span></h6>
+            </td>
+            <td>{{item.calificacion}}</td>
+            <td>{{item.facultad.descFacultad}}</td>
+            <td>{{item.fechaRegistro}} </td>
+
+            <td>
+              <a class="btn btn-warning btn-sm mr-1" role="button" title="Editar el registro."><i class="fas fa-pencil-alt"
+                  aria-hidden="true"></i></a>
+
+              <a id="deletec" class="btn btn-danger btn-sm" style="margin-left:10px" role="button" title="Eliminar el registro."><i
+                  class="fas fa-trash" aria-hidden="true"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+</div>
